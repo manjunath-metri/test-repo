@@ -13,8 +13,7 @@ pipeline{
     stages{
         stage("GIT checkout"){
             steps{
-                git branch: 'main', url: 'https://github.com/manjunath-metri/test-repo.git'
-                
+               checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [[$class: 'CleanBeforeCheckout']], userRemoteConfigs: [[credentialsId: 'a6f20d39-6a03-4a82-8534-9ef7d42368ef', url: 'https://github.com/manjunath-metri/test-repo.git']]])     
             }
         }
         stage("Maven Build"){
