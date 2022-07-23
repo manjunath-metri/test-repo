@@ -1,5 +1,19 @@
 pipeline {
 agent any 
-stage {
+environment{
+PATH = "/opt/maven-3.3.9/bin:$PATH"
+}
+stages {
 stage ("git checkout") {
 steps {
+git branch: 'main', url: 'https://github.com/manjunath-metri/test-repo.git'
+}
+}
+stage ("maven build") {
+step {
+sh " mvn clean package "
+}
+}
+}
+}
+
