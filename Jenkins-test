@@ -1,19 +1,17 @@
-pipeline {
-agent any 
-environment{
-PATH = "/opt/maven-3.3.9/bin:$PATH"
+pipeline{
+    agent any
+    stages{
+        stage("GIT checkout"){
+            steps{
+                git credentialsId: 'javahome', url: 'https://github.com/srinivas1987devops/myweb.git'
+                
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean package"
+                sh "mv target/*.war target/myweb.war"
+            }
+         }
+    }
 }
-stages {
-stage ("git checkout") {
-steps {
-git branch: 'main', url: 'https://github.com/manjunath-metri/test-repo.git'
-}
-}
-stage ("maven build") {
-step {
-sh " mvn clean package "
-}
-}
-}
-}
-
