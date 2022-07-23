@@ -1,5 +1,15 @@
 pipeline{
     agent any
+    tools {
+        maven "Maven 3.3.9"
+    }
+    environment {
+        NEXUS_VERSION = "nexus3.0.2-02"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "52.4.97.24:8081"
+        NEXUS_REPOSITORY = "artifacts"
+        NEXUS_CREDENTIAL_ID = "nexus"
+    }
     stages{
         stage("GIT checkout"){
             steps{
@@ -13,5 +23,15 @@ pipeline{
                 sh "mv target/*.war target/myweb.war"
             }
          }
+        stage("publish to nexus repository"){
+        steps{
+        nexusArtifactUploader artifacts: [[artifactId: 'pom.ArtifactId', classifier: '\'\'', file: 'artifactPath', type: 'pom.packaging'], [artifactId: 'pom.ArtifactId', classifier: '\'\'', file: 'pom.xml', type: 'pom.packaging']], credentialsId: 'nexus', groupId: 'pom.groupid', nexusUrl: '52.4.97.24:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'nexus', version: '3.0.2-02'
+        }
+      }
+        stage("email notification"){
+        steps{
+        mail bcc: '', body: 'test-pipeline output', cc: '', from: '', replyTo: '', subject: 'test-pipeline', to: 'manjubball@gmail.com'
+        }
+       }
     }
 }
