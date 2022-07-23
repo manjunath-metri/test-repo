@@ -1,8 +1,14 @@
 pipeline{
     agent any
-    
-    environment{
-    fname = "manjunath"
+    tools {
+        maven "Maven 3.3.9"
+    }
+    environment {
+        NEXUS_VERSION = "nexus3.0.2-02"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "52.4.97.24:8081"
+        NEXUS_REPOSITORY = "artifacts"
+        NEXUS_CREDENTIAL_ID = "nexus"
     }
     stages{
         stage("GIT checkout"){
